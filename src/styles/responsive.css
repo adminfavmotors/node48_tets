@@ -454,11 +454,4 @@
     transform: translateX(-50%) translateY(0) scale(1) !important;
   }
 
-  .reveal {
-    opacity: 1;
-    filter: none;
-    transform: none;
-    transition-duration: 0.01ms;
-    transition-delay: 0ms !important;
-  }
 }

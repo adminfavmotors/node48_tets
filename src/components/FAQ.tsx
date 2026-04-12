@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
-import { Reveal } from "@/components/primitives/Reveal";
 import { Section, SectionTitle } from "@/components/primitives/Section";
 import { ActionButton } from "@/components/primitives/Actions";
 import { useContactOverlay } from "@/components/contact/contact-overlay-context";
@@ -14,7 +13,7 @@ const FAQ = () => {
   return (
     <Section id="faq" tone="light" className="section-light-atmosphere">
       <div className="faq-layout">
-        <Reveal className="faq-intro-panel">
+        <div className="faq-intro-panel">
           <div className="faq-intro-copy">
             <SectionTitle tone="light" className="faq-title">
               {t.faq.title}
@@ -29,13 +28,13 @@ const FAQ = () => {
           >
             {t.nav.cta}
           </ActionButton>
-        </Reveal>
+        </div>
 
         <div className="faq-list">
           {t.faq.items.map((item, i) => {
             const isOpen = open === i;
             return (
-              <Reveal key={i} delay={i * 0.08}>
+              <div key={i}>
                 <div className="faq-divider" />
                 <button
                   type="button"
@@ -57,7 +56,7 @@ const FAQ = () => {
                     </p>
                   </div>
                 </div>
-              </Reveal>
+              </div>
             );
           })}
           <div className="faq-divider" />

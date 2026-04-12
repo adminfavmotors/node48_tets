@@ -1,7 +1,6 @@
 import { Layers3, MonitorSmartphone, Route, Search } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import { trustStripContent } from "@/lib/trust-strip-content";
-import { Reveal } from "@/components/primitives/Reveal";
 import { SurfaceCard } from "@/components/primitives/SurfaceCard";
 
 const icons = [Layers3, MonitorSmartphone, Search, Route] as const;
@@ -16,7 +15,7 @@ const TrustStrip = () => {
   return (
     <section className="trust-strip-section section-light">
       <div className="site-shell trust-strip-shell">
-        <Reveal className="trust-strip-panel" delay={0.04}>
+        <div className="trust-strip-panel">
           <div className="trust-strip-intro">
             <span className="trust-strip-eyebrow">
               {eyebrowParts ? (
@@ -36,13 +35,11 @@ const TrustStrip = () => {
               const Icon = icons[index];
 
               return (
-                <Reveal
-                  as={SurfaceCard}
+                <SurfaceCard
                   key={item.value}
                   variant="showcase"
                   spotlight
                   className="trust-strip-card"
-                  delay={0.08 + index * 0.07}
                 >
                   <div className="trust-strip-icon">
                     <Icon size={16} className="icon-circle-glyph" />
@@ -52,11 +49,11 @@ const TrustStrip = () => {
                     <p className="trust-strip-value">{item.value}</p>
                     <p className="trust-strip-label">{item.label}</p>
                   </div>
-                </Reveal>
+                </SurfaceCard>
               );
             })}
           </div>
-        </Reveal>
+        </div>
       </div>
     </section>
   );

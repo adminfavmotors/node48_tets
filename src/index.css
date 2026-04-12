@@ -722,26 +722,6 @@
     opacity: 0.15;
   }
 
-  .reveal {
-    opacity: 0;
-    transition:
-      opacity calc(var(--structural-motion-slow) + 180ms) var(--structural-motion-ease-strong),
-      transform calc(var(--structural-motion-slow) + 180ms) var(--structural-motion-ease-strong);
-  }
-
-  .reveal-direction-up {
-    transform: translate3d(0, var(--structural-motion-distance-lg), 0);
-  }
-
-  .reveal-direction-left {
-    transform: translate3d(0, var(--structural-motion-distance-md), 0);
-  }
-
-  .reveal-visible {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
-  }
-
   .footer-link {
     color: hsl(var(--muted-foreground));
     font-family: "DM Sans", sans-serif;
