@@ -64,7 +64,6 @@
 
 .page-entry-shell[data-page-entry="pending"] > section {
   opacity: 0.001;
-  filter: blur(10px);
   transform: translate3d(0, 24px, 0);
 }
 
@@ -1618,18 +1617,15 @@
 @keyframes page-section-settle {
   0% {
     opacity: 0;
-    filter: blur(10px);
     transform: translate3d(0, 24px, 0);
   }
 
   62% {
     opacity: 1;
-    filter: blur(0);
   }
 
   100% {
     opacity: 1;
-    filter: blur(0);
     transform: translate3d(0, 0, 0);
   }
 }
