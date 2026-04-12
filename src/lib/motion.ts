@@ -59,3 +59,8 @@ export const heroMotionDelays = {
     support: 560,
   },
 } as const;
+
+export const pageEntryMotionTimings = {
+  introStartMs: 220,
+  staggerMs: 72,
+} as const;

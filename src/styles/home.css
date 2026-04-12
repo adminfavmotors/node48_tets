@@ -53,6 +53,64 @@
   opacity: 0.18;
 }
 
+/* Home sections share one post-hero entrance sequence instead of per-section reveal logic. */
+.page-entry-shell {
+  position: relative;
+}
+
+.page-entry-shell > section {
+  --page-entry-order: 0;
+}
+
+.page-entry-shell > section:nth-child(1) {
+  --page-entry-order: 0;
+}
+
+.page-entry-shell > section:nth-child(2) {
+  --page-entry-order: 1;
+}
+
+.page-entry-shell > section:nth-child(3) {
+  --page-entry-order: 2;
+}
+
+.page-entry-shell > section:nth-child(4) {
+  --page-entry-order: 3;
+}
+
+.page-entry-shell > section:nth-child(5) {
+  --page-entry-order: 4;
+}
+
+.page-entry-shell > section:nth-child(6) {
+  --page-entry-order: 5;
+}
+
+.page-entry-shell > section:nth-child(7) {
+  --page-entry-order: 6;
+}
+
+.page-entry-shell > section:nth-child(8) {
+  --page-entry-order: 7;
+}
+
+.page-entry-shell > section:nth-child(9) {
+  --page-entry-order: 8;
+}
+
+.page-entry-shell[data-page-entry="pending"] > section {
+  opacity: 0.001;
+  filter: blur(10px);
+  transform: translate3d(0, 24px, 0);
+}
+
+.page-entry-shell[data-page-entry="ready"] > section {
+  animation: page-section-settle 720ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: calc(
+    var(--page-entry-base-delay, 0ms) + (var(--page-entry-order) * var(--page-entry-stagger, 72ms))
+  );
+}
+
 .hero-layout {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
@@ -1589,6 +1647,25 @@
 
   100% {
     opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes page-section-settle {
+  0% {
+    opacity: 0;
+    filter: blur(10px);
+    transform: translate3d(0, 24px, 0);
+  }
+
+  62% {
+    opacity: 1;
+    filter: blur(0);
+  }
+
+  100% {
+    opacity: 1;
+    filter: blur(0);
     transform: translate3d(0, 0, 0);
   }
 }
