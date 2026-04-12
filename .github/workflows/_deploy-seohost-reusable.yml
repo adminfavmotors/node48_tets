@@ -14,18 +14,15 @@ on:
         type: string
 
 concurrency:
-  group: deploy-seohost-production
+  group: deploy-seohost
   cancel-in-progress: true
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    environment:
-      name: production
-      url: https://node48.pl
 
     permissions:
-      contents: write
+      contents: read
 
     steps:
       - name: Resolve deployment target
@@ -53,12 +50,9 @@ jobs:
         run: |
           deployed_sha="$(git rev-parse HEAD)"
           short_sha="$(git rev-parse --short=7 HEAD)"
-          timestamp_utc="$(date -u +"%Y%m%d-%H%M%S")"
-          deployment_tag="prod-${timestamp_utc}-${short_sha}"
 
           echo "deployed_sha=$deployed_sha" >> "$GITHUB_OUTPUT"
           echo "short_sha=$short_sha" >> "$GITHUB_OUTPUT"
-          echo "deployment_tag=$deployment_tag" >> "$GITHUB_OUTPUT"
 
       - name: Setup Node.js
         uses: actions/setup-node@v6
@@ -120,26 +114,14 @@ jobs:
             ./dist/ \
             srv110507@h79.seohost.pl:domains/node48.pl/public_html/
 
-      - name: Create immutable production tag
-        shell: bash
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          tag_message="Production deployment (${{ inputs.deployment_reason }}) for ${{ steps.gitmeta.outputs.deployed_sha }}"
-
-          git tag -a "${{ steps.gitmeta.outputs.deployment_tag }}" "${{ steps.gitmeta.outputs.deployed_sha }}" -m "$tag_message"
-
-          git push origin "${{ steps.gitmeta.outputs.deployment_tag }}"
-
       - name: Publish deployment summary
         shell: bash
         run: |
           {
-            echo "## Production deployment"
+            echo "## Deployment"
             echo
             echo "- Reason: \`${{ inputs.deployment_reason }}\`"
             echo "- Deployed ref: \`${{ steps.resolve.outputs.target_ref }}\`"
             echo "- Deployed commit: \`${{ steps.gitmeta.outputs.deployed_sha }}\`"
-            echo "- Production tag: \`${{ steps.gitmeta.outputs.deployment_tag }}\`"
             echo "- Site URL: https://node48.pl"
           } >> "$GITHUB_STEP_SUMMARY"

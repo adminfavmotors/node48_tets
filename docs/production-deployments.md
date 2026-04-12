@@ -1,56 +1,29 @@
-# Production Deployments
+# Deployments
 
-## What Changed
+## Test Repository Mode
 
-Production deploys now use three GitHub Actions workflows:
+This repository is a test mirror of the active project, so the deploy workflow is intentionally simpler than the production repo.
 
-- `Deploy SEOHOST` for normal deploys from `main`
-- `Deploy SEOHOST` with manual input when you want to deploy a specific branch, tag, or SHA
-- `Rollback SEOHOST` for explicit rollback to an earlier production version
+Current behavior:
 
-Every successful production deployment now creates an immutable Git tag in this format:
+- push to `main` triggers deploy
+- manual deploy by explicit ref is still available
+- no GitHub Actions environment gate is required
+- no immutable deployment tag is created
 
-```text
-prod-YYYYMMDD-HHMMSS-<short-sha>
-```
+## Why The Workflow Was Simplified
 
-That tag is the rollback anchor. It marks exactly what was deployed to `https://node48.pl`.
+The production repo can justify extra controls like:
 
-## Fast Rollback
+- environment approval gates
+- protected production metadata
+- immutable deploy tags
 
-Recommended rollback flow:
-
-1. Open `Actions` in GitHub.
-2. Open `Rollback SEOHOST`.
-3. Click `Run workflow`.
-4. Paste a previously created `prod-*` tag into `rollback_ref`.
-5. Run the workflow.
-
-This redeploys the tagged version to production and creates a new immutable `prod-*` tag for the rollback deployment itself, so the audit trail stays intact.
-
-## Safe Deployment Flow
-
-Recommended deployment flow before shipping UI changes:
-
-1. Merge approved work to `main` only when ready for production.
-2. Let `Deploy SEOHOST` run automatically, or manually deploy a specific ref if needed.
-3. Verify the production site.
-4. If something is wrong, run `Rollback SEOHOST` with the last known good `prod-*` tag.
-
-## Why This Matches Current Practice
-
-For a static site deployed from GitHub Actions in 2026, the reliable rollback pattern is:
-
-- keep production deployment history in GitHub Actions
-- deploy from explicit refs, not from mutable local state
-- create immutable production tags after every successful release
-- make rollback a redeploy of a known good Git ref
-
-That approach is especially important for shared hosting, where the platform itself usually does not provide instant version rollback.
+The test repo is meant for fast iteration, so those controls were removed here to reduce friction during deploy runs.
 
 ## Transport Contract
 
-Production deploys now use `rsync` over `SSH`, not plain `FTP`.
+Deploys use `rsync` over `SSH`, not plain `FTP`.
 
 Before the workflow can deploy successfully:
 
@@ -59,21 +32,28 @@ Before the workflow can deploy successfully:
 3. Store the matching private key in a GitHub Actions secret named `SEOHOST_GITHUB_ACTIONS_RSA`.
    The workflow accepts either the raw private key or a base64-encoded version of the same key.
 
-The current workflow deploys with these project-specific SEOHOST values:
+The current workflow still deploys with these values:
 
 - host: `h79.seohost.pl`
 - user: `srv110507`
 - port: `57185`
 - target path: `domains/node48.pl/public_html/`
 
-This keeps deployment traffic encrypted in transit while matching the SSH contract that is actually active on the hosting account.
+## Important Warning
 
-## Optional Hardening In GitHub Settings
+This test repository currently still points to the same SEOHOST destination as the mirrored project.
 
-The workflows already target the `production` environment. To make production safer, configure this in GitHub:
+That means:
 
-- Repository Settings -> Environments -> `production`
-- add required reviewers before production deploys
-- optionally restrict which branches can deploy
+- deploy friction is lower here
+- but the deploy target is not isolated by this repository alone
 
-That gives you an approval gate before a production deployment starts.
+If this repository should deploy to a separate test site, update the host, user, port, target path, and GitHub secret setup before using deploy workflows.
+
+## GitHub Settings Note
+
+If pushes or merges are still blocked after these file changes, that blocker is not in the repository files. It will usually be in GitHub settings such as:
+
+- branch protection
+- rulesets
+- repository environment settings
