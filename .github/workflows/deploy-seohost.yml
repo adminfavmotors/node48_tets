@@ -1,9 +1,6 @@
 name: Deploy SEOHOST
 
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:
     inputs:
       deploy_ref:
@@ -41,5 +38,5 @@ jobs:
     uses: ./.github/workflows/_deploy-seohost-reusable.yml
     with:
       deploy_ref: ${{ inputs.deploy_ref }}
-      deployment_reason: ${{ github.event_name == 'push' && 'push-to-main' || 'manual-deploy' }}
+      deployment_reason: manual-deploy
     secrets: inherit

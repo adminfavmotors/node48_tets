@@ -2,6 +2,8 @@
 
 Bilingual marketing website for `NODE48`, built with `React`, `Vite`, `TypeScript`, and `Tailwind CSS`.
 
+This repository is the isolated test mirror for client-safe UI and UX work. Day-to-day changes land on `test`, get reviewed on Vercel preview deployments, and are only ported to the main client repository after approval.
+
 ## Product Scope
 
 The site currently covers:
@@ -20,7 +22,7 @@ Implemented and active:
 
 - responsive desktop, mobile, and ultrawide layout system
 - rebuilt homepage visual layer with stronger hero, trust strip, simplified CTA card section, and section backgrounds
-- cleaned motion system based on shared `Reveal` primitives instead of DOM-wide reveal hooks
+- unified structural motion system for shell, hero, cards, overlays, and portfolio interactions
 - route-level lazy loading for service and legal pages
 - deferred portfolio showcase mount so carousel code loads near viewport
 - dedicated SEO-oriented service pages with canonical URLs, redirects, and JSON-LD
@@ -28,19 +30,14 @@ Implemented and active:
 - global scroll-to-top button
 - isolated portfolio carousel backed by structured project data and real preview images
 - surface-card system for editorial, showcase, deep, and summary content blocks
-- production rollback flow via GitHub Actions with immutable `prod-*` tags
+- manual SEOHOST deployment and rollback workflow kept only as an exception path
 
 ## Documentation
 
 Recent internal documentation:
 
-- [CTA Section Retrospective - 2026-04-04](C:\Users\Admin\Desktop\project\nebula-nexus-labs\docs\cta-section-retrospective-2026-04-04.md)
-- [Chat Report - 2026-04-02](C:\Users\Admin\Desktop\project\nebula-nexus-labs\docs\chat-report-2026-04-02.md)
-- [Production Deployments](C:\Users\Admin\Desktop\project\nebula-nexus-labs\docs\production-deployments.md)
-- [Chat Report - 2026-03-29](C:\Users\Admin\Desktop\project\nebula-nexus-labs\docs\chat-report-2026-03-29.md)
-- [Current State - 2026-03-29](C:\Users\Admin\Desktop\project\nebula-nexus-labs\docs\current-state-2026-03-29.md)
-- [Chat Report - 2026-03-28](C:\Users\Admin\Desktop\project\nebula-nexus-labs\docs\chat-report-2026-03-28.md)
-- [Current State - 2026-03-28](C:\Users\Admin\Desktop\project\nebula-nexus-labs\docs\current-state-2026-03-28.md)
+- [Production Deployments](C:\Users\Admin\Desktop\project\node48_tets\docs\production-deployments.md)
+- [AI Dev Prompt](C:\Users\Admin\Desktop\project\node48_tets\docs\ai-dev-prompt.md)
 
 ## Stack
 
@@ -70,7 +67,7 @@ npm install
 npm run dev
 ```
 
-The app runs on the Vite development server configured in [C:\Users\Admin\Desktop\project\nebula-nexus-labs\vite.config.ts](C:\Users\Admin\Desktop\project\nebula-nexus-labs\vite.config.ts).
+The app runs on the Vite development server configured in [vite.config.ts](C:\Users\Admin\Desktop\project\node48_tets\vite.config.ts).
 
 ## Available Scripts
 
@@ -107,16 +104,17 @@ docs/
 
 ## Key Config Files
 
-- shared business/config values: [C:\Users\Admin\Desktop\project\nebula-nexus-labs\src\lib\site-config.ts](C:\Users\Admin\Desktop\project\nebula-nexus-labs\src\lib\site-config.ts)
-- service catalog and slugs: [C:\Users\Admin\Desktop\project\nebula-nexus-labs\src\lib\service-pages.ts](C:\Users\Admin\Desktop\project\nebula-nexus-labs\src\lib\service-pages.ts)
-- service page details: [C:\Users\Admin\Desktop\project\nebula-nexus-labs\src\lib\service-page-details](C:\Users\Admin\Desktop\project\nebula-nexus-labs\src\lib\service-page-details)
-- project portfolio data: [C:\Users\Admin\Desktop\project\nebula-nexus-labs\src\lib\project-cases.ts](C:\Users\Admin\Desktop\project\nebula-nexus-labs\src\lib\project-cases.ts)
-- portfolio carousel module: [C:\Users\Admin\Desktop\project\nebula-nexus-labs\src\components\portfolio](C:\Users\Admin\Desktop\project\nebula-nexus-labs\src\components\portfolio)
-- SEO/meta handling: [C:\Users\Admin\Desktop\project\nebula-nexus-labs\src\lib\seo.ts](C:\Users\Admin\Desktop\project\nebula-nexus-labs\src\lib\seo.ts)
+- shared business/config values: [src/lib/contact-config.ts](C:\Users\Admin\Desktop\project\node48_tets\src\lib\contact-config.ts)
+- service catalog and slugs: [src/lib/service-pages.ts](C:\Users\Admin\Desktop\project\node48_tets\src\lib\service-pages.ts)
+- service page details: [src/lib/service-page-details](C:\Users\Admin\Desktop\project\node48_tets\src\lib\service-page-details)
+- project portfolio data: [src/lib/project-cases.ts](C:\Users\Admin\Desktop\project\node48_tets\src\lib\project-cases.ts)
+- portfolio carousel module: [src/components/portfolio](C:\Users\Admin\Desktop\project\node48_tets\src\components\portfolio)
+- SEO/meta handling: [src/lib/seo.ts](C:\Users\Admin\Desktop\project\node48_tets\src\lib\seo.ts)
+- Vercel Git deployment rules: [vercel.json](C:\Users\Admin\Desktop\project\node48_tets\vercel.json)
 
 ## Localization
 
-- translations are stored in [C:\Users\Admin\Desktop\project\nebula-nexus-labs\src\lib\i18n-data.ts](C:\Users\Admin\Desktop\project\nebula-nexus-labs\src\lib\i18n-data.ts)
+- translations are stored in [src/lib/i18n-data.ts](C:\Users\Admin\Desktop\project\node48_tets\src\lib\i18n-data.ts)
 - Polish is the default locale
 - selected locale is persisted in `localStorage`
 - `html[lang]`, `document.title`, and page metadata update with locale changes
@@ -128,19 +126,27 @@ docs/
 - structured data is generated for service pages
 - sitemap and legacy service redirects are maintained in `public/`
 
-## Deploy and Rollback
+## Test Preview Workflow
 
-- production deploys run from GitHub Actions
-- rollback is handled by redeploying a known good `branch`, `tag`, or `SHA`
-- successful production deploys create immutable `prod-*` tags
-- the current deployment/rollback workflow is documented in [C:\Users\Admin\Desktop\project\nebula-nexus-labs\docs\production-deployments.md](C:\Users\Admin\Desktop\project\nebula-nexus-labs\docs\production-deployments.md)
+- this repository is the safe test mirror and should be developed on the `test` branch
+- Vercel preview deployments are intended to follow `test`
+- `vercel.json` disables automatic Vercel Git deployments for every branch except `test`
+- the URL `https://node48tets-e6se74o4n-adminfavmotors-projects.vercel.app` is a commit-specific deployment URL, not the stable branch URL
+- when Vercel Git integration is connected correctly, the branch preview URL for `test` should always point at the latest `test` commit
+- only after approval should changes be ported to the main client repository
+
+## SEOHOST Deploy Safety
+
+- automatic SEOHOST deploys are disabled in this test mirror
+- the SEOHOST workflow is manual-only and should be treated as an exception path
+- deployment and rollback notes for this mirror are documented in [docs/production-deployments.md](C:\Users\Admin\Desktop\project\node48_tets\docs\production-deployments.md)
 
 ## Contact Form
 
 - the homepage includes a shared contact section
 - internal pages use a reusable modal contact overlay
 - form submission currently uses `FormSubmit`
-- recipient configuration lives in [C:\Users\Admin\Desktop\project\nebula-nexus-labs\src\lib\site-config.ts](C:\Users\Admin\Desktop\project\nebula-nexus-labs\src\lib\site-config.ts)
+- recipient configuration lives in [src/lib/contact-config.ts](C:\Users\Admin\Desktop\project\node48_tets\src\lib\contact-config.ts)
 
 ## Quality Checks
 
