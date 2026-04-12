@@ -454,81 +454,6 @@
     border-color: rgb(var(--light-cool-deep-rgb) / 0.1);
   }
 
-  .card-surface-premium-accent {
-    position: relative;
-    isolation: isolate;
-  }
-
-  .card-surface-premium-accent::before {
-    content: "";
-    position: absolute;
-    inset: -42% -18%;
-    z-index: 0;
-    border-radius: 999px;
-    background:
-      linear-gradient(
-        112deg,
-        transparent 42%,
-        rgb(var(--light-warm-rgb) / 0.1) 45%,
-        rgb(var(--light-line-rgb) / 0.18) 49%,
-        rgb(var(--light-cool-rgb) / 0.48) 52%,
-        rgb(var(--light-line-rgb) / 0.2) 56%,
-        transparent 60%
-      )
-      145% 50% / 220% 220% no-repeat;
-    filter: blur(10px) saturate(1.02);
-    opacity: 0;
-    animation: premium-accent-sweep 2.8s linear infinite paused;
-    transition:
-      opacity var(--structural-motion-base) var(--structural-motion-ease),
-      filter var(--structural-motion-base) var(--structural-motion-ease);
-    pointer-events: none;
-  }
-
-  .card-surface-premium-accent::after {
-    content: "";
-    position: absolute;
-    inset: 1px;
-    border-radius: calc(var(--radius) - 1px);
-    background:
-      radial-gradient(circle at 18% 24%, rgb(var(--light-warm-rgb) / 0.14), transparent 22%),
-      radial-gradient(circle at 82% 18%, rgb(var(--light-cool-rgb) / 0.12), transparent 26%),
-      linear-gradient(160deg, rgba(15, 34, 88, 0.985), rgba(7, 17, 48, 0.985)),
-      radial-gradient(circle at top right, rgba(90, 149, 255, 0.08), transparent 28%);
-    opacity: 0.98;
-    transition:
-      box-shadow var(--structural-motion-base) var(--structural-motion-ease),
-      border-color var(--structural-motion-base) var(--structural-motion-ease);
-    box-shadow:
-      inset 0 0 0 1px rgb(var(--light-line-rgb) / 0.06),
-      inset 0 1px 0 rgba(255, 255, 255, 0.04);
-    pointer-events: none;
-  }
-
-  .card-surface-premium-accent > * {
-    position: relative;
-    z-index: 1;
-  }
-
-  .card-surface-premium-accent:is(:hover, :focus-within)::before {
-    opacity: 0.94;
-    filter: blur(8px) saturate(1.08);
-    animation-play-state: running;
-  }
-
-  .card-surface-premium-accent:is(:hover, :focus-within)::after {
-    box-shadow:
-      inset 0 0 0 1px rgb(var(--light-line-rgb) / 0.12),
-      inset 0 1px 0 rgba(255, 255, 255, 0.06);
-  }
-
-  .card-surface-premium-accent:is(:hover, :focus-within) {
-    box-shadow:
-      0 26px 58px rgba(0, 10, 34, 0.34),
-      0 0 0 1px var(--light-interactive-ring),
-      inset 0 1px 0 rgba(255, 255, 255, 0.07);
-  }
-
   .btn-pill {
     @apply inline-flex items-center justify-center font-body font-semibold text-sm tracking-wide;
     position: relative;
@@ -1224,21 +1149,10 @@
   }
 }
 
-@keyframes premium-accent-sweep {
-  from {
-    background-position: 145% 50%;
-  }
-
-  to {
-    background-position: -55% 50%;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .section-divider::after,
   .faq-divider::after,
-  .glow-divider::after,
-  .card-surface-premium-accent::before {
+  .glow-divider::after {
     animation: none;
     opacity: 0;
   }

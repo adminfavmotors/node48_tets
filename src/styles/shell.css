@@ -493,10 +493,34 @@
   .header-cta {
     position: relative;
     z-index: 1;
+    overflow: clip;
     padding-inline: 1.45rem;
+    border-color: rgb(var(--light-line-rgb) / 0.18);
+    background:
+      linear-gradient(180deg, rgb(120 171 255 / 0.98), rgb(71 126 229 / 0.98));
+    background-clip: padding-box;
+    box-shadow:
+      0 12px 28px rgb(var(--light-cool-deep-rgb) / 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.14);
     font-size: 0.86rem;
     font-weight: 700;
   }
+
+.header-cta:is(:hover, :focus-visible) {
+  border-color: rgb(var(--light-line-rgb) / 0.26);
+  background:
+    linear-gradient(180deg, rgb(128 178 255 / 0.99), rgb(78 134 238 / 0.99));
+  box-shadow:
+    0 16px 32px rgb(var(--light-cool-deep-rgb) / 0.22),
+    0 0 0 1px rgb(var(--light-cool-rgb) / 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.16);
+}
+
+.header-cta:active {
+  box-shadow:
+    0 10px 24px rgb(var(--light-cool-deep-rgb) / 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.14);
+}
 
 .header-cta-desktop {
   display: none;
