@@ -28,10 +28,11 @@
     font-weight: 600;
     line-height: 1.36;
     letter-spacing: 0.004em;
+    outline: none;
     transition: color 0.22s ease, opacity 0.22s ease;
   }
 
-  .service-page-breadcrumb-link:hover {
+  .service-page-breadcrumb-link:is(:hover, :focus-visible) {
     color: white;
   }
 
@@ -283,9 +284,10 @@
       border-color var(--structural-motion-base) var(--structural-motion-ease),
       background-color var(--structural-motion-base) var(--structural-motion-ease),
       box-shadow var(--structural-motion-base) var(--structural-motion-ease);
+    outline: none;
   }
 
-  .service-page-related-card:hover {
+  .service-page-related-card:is(:hover, :focus-visible) {
     border-color: var(--light-interactive-border-strong);
     background:
       linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.04)),

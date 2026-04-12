@@ -33,23 +33,31 @@ const FAQ = () => {
         <div className="faq-list">
           {t.faq.items.map((item, i) => {
             const isOpen = open === i;
+            const triggerId = `faq-trigger-${i}`;
+            const panelId = `faq-panel-${i}`;
             return (
               <div key={i}>
                 <div className="faq-divider" />
                 <button
                   type="button"
+                  id={triggerId}
                   onClick={() => setOpen(isOpen ? -1 : i)}
                   className="faq-item-trigger"
+                  aria-expanded={isOpen}
+                  aria-controls={panelId}
                 >
-                  <span className={isOpen ? "faq-item-question faq-item-question-open" : "faq-item-question faq-item-question-closed"}>
+                  <span className="faq-item-question">
                     {item.question}
                   </span>
-                  <ChevronDown
-                    size={18}
-                    className={isOpen ? "faq-item-chevron faq-item-chevron-open" : "faq-item-chevron"}
-                  />
+                  <ChevronDown size={18} className="faq-item-chevron" />
                 </button>
-                <div className={isOpen ? "faq-item-panel faq-item-panel-open" : "faq-item-panel faq-item-panel-closed"}>
+                <div
+                  id={panelId}
+                  role="region"
+                  aria-labelledby={triggerId}
+                  data-state={isOpen ? "open" : "closed"}
+                  className="faq-item-panel"
+                >
                   <div className="faq-item-body">
                     <p className="section-copy-light copy-pretty measure-copy-wide faq-item-copy">
                       {item.answer}
