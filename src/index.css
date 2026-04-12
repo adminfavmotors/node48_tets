@@ -462,46 +462,56 @@
   .card-surface-premium-accent::before {
     content: "";
     position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 168%;
-    aspect-ratio: 1;
-    border-radius: 999px;
+    inset: -1px;
+    z-index: 0;
+    padding: 1px;
+    border-radius: inherit;
     background:
       conic-gradient(
-        from 0deg,
-        transparent 0deg 34deg,
-        rgb(var(--light-warm-rgb) / 0.18) 66deg,
-        rgb(var(--light-cool-rgb) / 0.36) 132deg,
-        rgb(var(--light-line-rgb) / 0.22) 176deg,
-        transparent 236deg 360deg
+        from 0deg at 50% 50%,
+        transparent 0deg 22deg,
+        rgb(var(--light-warm-rgb) / 0.16) 48deg,
+        rgb(var(--light-line-rgb) / 0.22) 84deg,
+        rgb(var(--light-cool-rgb) / 0.42) 132deg,
+        transparent 176deg 224deg,
+        rgb(var(--light-cool-rgb) / 0.18) 276deg,
+        rgb(var(--light-warm-rgb) / 0.14) 320deg,
+        transparent 360deg
       );
-    filter: blur(20px);
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    mask-composite: exclude;
+    filter: saturate(1.02);
     opacity: 0;
-    transform: translate3d(-50%, -50%, 0) rotate(0deg);
+    transform: rotate(0deg);
     animation: premium-accent-orbit 4.4s linear infinite paused;
     transition:
       opacity var(--structural-motion-base) var(--structural-motion-ease),
-      filter var(--structural-motion-base) var(--structural-motion-ease);
+      filter var(--structural-motion-base) var(--structural-motion-ease),
+      border-color var(--structural-motion-base) var(--structural-motion-ease);
     pointer-events: none;
   }
 
   .card-surface-premium-accent::after {
     content: "";
     position: absolute;
-    inset: 1px;
+    inset: 1px 1px auto;
+    height: 62%;
     border-radius: calc(var(--radius) - 1px);
     background:
-      radial-gradient(circle at 18% 20%, rgb(var(--light-warm-rgb) / 0.08), transparent 26%),
-      radial-gradient(circle at 86% 12%, rgb(var(--light-cool-rgb) / 0.12), transparent 24%),
-      linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 28%, rgba(4, 11, 34, 0.08) 100%);
-    opacity: 0.74;
+      radial-gradient(circle at 16% 24%, rgb(var(--light-warm-rgb) / 0.16), transparent 24%),
+      radial-gradient(circle at 82% 18%, rgb(var(--light-cool-rgb) / 0.18), transparent 28%),
+      radial-gradient(circle at 52% 100%, rgb(var(--light-cool-rgb) / 0.08), transparent 42%);
+    filter: blur(28px);
+    opacity: 0;
     transition:
       opacity var(--structural-motion-base) var(--structural-motion-ease),
-      box-shadow var(--structural-motion-base) var(--structural-motion-ease);
-    box-shadow:
-      inset 0 0 0 1px rgb(var(--light-line-rgb) / 0.08),
-      inset 0 1px 0 rgba(255, 255, 255, 0.04);
+      filter var(--structural-motion-base) var(--structural-motion-ease);
     pointer-events: none;
   }
 
@@ -511,17 +521,21 @@
   }
 
   .card-surface-premium-accent:is(:hover, :focus-within)::before {
-    opacity: 0.88;
-    filter: blur(16px);
+    opacity: 0.96;
+    filter: saturate(1.06);
     animation-play-state: running;
   }
 
   .card-surface-premium-accent:is(:hover, :focus-within)::after {
-    opacity: 0.96;
+    opacity: 0.88;
+    filter: blur(22px);
+  }
+
+  .card-surface-premium-accent:is(:hover, :focus-within) {
     box-shadow:
-      inset 0 0 0 1px rgb(var(--light-line-rgb) / 0.14),
-      inset 0 1px 0 rgba(255, 255, 255, 0.06),
-      0 0 0 1px var(--light-interactive-ring);
+      0 26px 58px rgba(0, 10, 34, 0.34),
+      0 0 0 1px var(--light-interactive-ring),
+      inset 0 1px 0 rgba(255, 255, 255, 0.07);
   }
 
   .btn-pill {
@@ -1221,11 +1235,11 @@
 
 @keyframes premium-accent-orbit {
   from {
-    transform: translate3d(-50%, -50%, 0) rotate(0deg);
+    transform: rotate(0deg);
   }
 
   to {
-    transform: translate3d(-50%, -50%, 0) rotate(360deg);
+    transform: rotate(360deg);
   }
 }
 
