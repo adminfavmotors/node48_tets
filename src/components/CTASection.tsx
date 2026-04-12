@@ -8,7 +8,7 @@ const CTASection = () => {
   const { t } = useI18n();
 
   return (
-    <Section tone="deep" className="section-deep-focus">
+    <Section tone="deep" className="section-deep-focus" pageEntryOrder={8}>
       <div className="cta-card-grid">
         <SurfaceCard variant="deep" className="cta-card">
           <div className="cta-card-stack">

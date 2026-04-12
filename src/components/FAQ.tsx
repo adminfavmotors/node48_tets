@@ -11,7 +11,7 @@ const FAQ = () => {
   const { openContactOverlay } = useContactOverlay();
 
   return (
-    <Section id="faq" tone="light" className="section-light-atmosphere">
+    <Section id="faq" tone="light" className="section-light-atmosphere" pageEntryOrder={6}>
       <div className="faq-layout">
         <div className="faq-intro-panel">
           <div className="faq-intro-copy">

@@ -12,7 +12,7 @@ const WhyUs = () => {
   ];
 
   return (
-    <Section id="why-us" tone="deep" className="section-deep-focus">
+    <Section id="why-us" tone="deep" className="section-deep-focus" pageEntryOrder={5}>
       <div className="glow-orb section-orb section-orb-why-a" />
       <div className="glow-orb glow-orb-b section-orb section-orb-why-b" />
 

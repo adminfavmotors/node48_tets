@@ -7,7 +7,7 @@ const HowWeWork = () => {
   const { t } = useI18n();
 
   return (
-    <Section id="process" tone="deep" className="section-deep-grid">
+    <Section id="process" tone="deep" className="section-deep-grid" pageEntryOrder={3}>
       <div className="glow-orb section-orb section-orb-process-a" />
       <div className="glow-orb glow-orb-b section-orb section-orb-process-b" />
 

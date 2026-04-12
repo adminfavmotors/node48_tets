@@ -27,7 +27,7 @@ const Projects = () => {
   const { t } = useI18n();
 
   return (
-    <Section id="projects" tone="light" className="section-light-showcase projects-stage">
+    <Section id="projects" tone="light" className="section-light-showcase projects-stage" pageEntryOrder={4}>
       <SectionHeader
         tone="light"
         title={<span className="section-title-inline">{t.projects.title}</span>}

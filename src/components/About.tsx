@@ -5,7 +5,7 @@ const About = () => {
   const { t } = useI18n();
 
   return (
-    <Section id="about" tone="light" className="section-light-editorial">
+    <Section id="about" tone="light" className="section-light-editorial" pageEntryOrder={1}>
       <div className="about-layout">
         <SectionTitle tone="light" className="about-title">
           <span>{t.about.titleLine1} </span>

@@ -62,42 +62,6 @@
   --page-entry-order: 0;
 }
 
-.page-entry-shell > section:nth-child(1) {
-  --page-entry-order: 0;
-}
-
-.page-entry-shell > section:nth-child(2) {
-  --page-entry-order: 1;
-}
-
-.page-entry-shell > section:nth-child(3) {
-  --page-entry-order: 2;
-}
-
-.page-entry-shell > section:nth-child(4) {
-  --page-entry-order: 3;
-}
-
-.page-entry-shell > section:nth-child(5) {
-  --page-entry-order: 4;
-}
-
-.page-entry-shell > section:nth-child(6) {
-  --page-entry-order: 5;
-}
-
-.page-entry-shell > section:nth-child(7) {
-  --page-entry-order: 6;
-}
-
-.page-entry-shell > section:nth-child(8) {
-  --page-entry-order: 7;
-}
-
-.page-entry-shell > section:nth-child(9) {
-  --page-entry-order: 8;
-}
-
 .page-entry-shell[data-page-entry="pending"] > section {
   opacity: 0.001;
   filter: blur(10px);

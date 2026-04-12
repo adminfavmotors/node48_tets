@@ -6,7 +6,13 @@ const ContactForm = () => {
   const { t } = useI18n();
 
   return (
-    <Section id="contact" tone="light" className="section-light-atmosphere" containerClassName="contact-shell">
+    <Section
+      id="contact"
+      tone="light"
+      className="section-light-atmosphere"
+      containerClassName="contact-shell"
+      pageEntryOrder={7}
+    >
       <SectionTitle tone="light" className="contact-section-title">
         {t.contact.title}
       </SectionTitle>

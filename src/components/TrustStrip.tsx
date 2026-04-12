@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import { Layers3, MonitorSmartphone, Route, Search } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import { trustStripContent } from "@/lib/trust-strip-content";
@@ -11,9 +12,10 @@ const TrustStrip = () => {
   const eyebrowParts = copy.eyebrow.includes("NODE48")
     ? copy.eyebrow.split("NODE48")
     : null;
+  const sectionStyle = { "--page-entry-order": 0 } as CSSProperties;
 
   return (
-    <section className="trust-strip-section section-light">
+    <section className="trust-strip-section section-light" style={sectionStyle}>
       <div className="site-shell trust-strip-shell">
         <div className="trust-strip-panel">
           <div className="trust-strip-intro">

@@ -1,4 +1,4 @@
-import { forwardRef, type ComponentPropsWithoutRef, type ReactNode } from "react";
+import { forwardRef, type CSSProperties, type ComponentPropsWithoutRef, type ReactNode } from "react";
 import { cx } from "@/lib/cx";
 
 type SectionTone = "light" | "deep";
@@ -11,12 +11,21 @@ const toneClassMap: Record<SectionTone, string> = {
 type SectionProps = ComponentPropsWithoutRef<"section"> & {
   tone: SectionTone;
   containerClassName?: string;
+  pageEntryOrder?: number;
 };
 
 export const Section = forwardRef<HTMLElement, SectionProps>(function Section(
-  { tone, className, containerClassName, children, ...props },
+  { tone, className, containerClassName, pageEntryOrder, style, children, ...props },
   ref,
 ) {
+  const resolvedStyle =
+    pageEntryOrder === undefined
+      ? style
+      : ({
+          ...style,
+          "--page-entry-order": pageEntryOrder,
+        } as CSSProperties);
+
   return (
     <section
       ref={ref}
@@ -25,6 +34,7 @@ export const Section = forwardRef<HTMLElement, SectionProps>(function Section(
         toneClassMap[tone],
         className,
       )}
+      style={resolvedStyle}
       {...props}
     >
       <div className={cx("site-shell", containerClassName)}>{children}</div>

@@ -9,7 +9,7 @@ const Services = () => {
   const services = getServiceCatalog(locale);
 
   return (
-    <Section id="services" tone="light" className="section-light-listing">
+    <Section id="services" tone="light" className="section-light-listing" pageEntryOrder={2}>
       <SectionTitle tone="light" className="services-title">
         {t.services.title}
       </SectionTitle>
