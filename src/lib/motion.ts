@@ -5,6 +5,14 @@ export const localeMotionTimings = {
   settleDelayMs: 240,
 } as const;
 
+export const structuralMotionTimings = {
+  quickMs: 220,
+  baseMs: 320,
+  slowMs: 420,
+  staggerMs: 48,
+  mobileRevealStartMs: 120,
+} as const;
+
 const rawBrandIntroMotionTimings = {
   letterDurationMs: 760,
   letterStaggerMs: 64,
