@@ -23,6 +23,7 @@ Implemented and active:
 - responsive desktop, mobile, and ultrawide layout system
 - rebuilt homepage visual layer with stronger hero, trust strip, simplified CTA card section, and section backgrounds
 - unified structural motion system for shell, hero, cards, overlays, and portfolio interactions
+- unified light-behavior system with shared cool ambient, warm accent, and interactive highlight tokens
 - route-level lazy loading for service and legal pages
 - deferred portfolio showcase mount so carousel code loads near viewport
 - dedicated SEO-oriented service pages with canonical URLs, redirects, and JSON-LD
@@ -88,7 +89,7 @@ src/
   components/contact/      Contact overlay and related form logic
   components/legal/        Legal-page components
   components/portfolio/    Dedicated portfolio carousel module
-  components/primitives/   Shared low-level UI, reveal, and viewport primitives
+  components/primitives/   Shared low-level UI and surface/action primitives
   lib/                     i18n, SEO, service data, project data, site config
   lib/service-page-details Service-page content definitions
   pages/                   Route-level pages
@@ -131,6 +132,7 @@ docs/
 - this repository is the safe test mirror and should be developed on the `test` branch
 - Vercel preview deployments are intended to follow `test`
 - `vercel.json` disables automatic Vercel Git deployments for every branch except `test`
+- the stable test domain is `https://node48tets.vercel.app`
 - the URL `https://node48tets-e6se74o4n-adminfavmotors-projects.vercel.app` is a commit-specific deployment URL, not the stable branch URL
 - when Vercel Git integration is connected correctly, the branch preview URL for `test` should always point at the latest `test` commit
 - only after approval should changes be ported to the main client repository
