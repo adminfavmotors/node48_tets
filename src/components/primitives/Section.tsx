@@ -11,11 +11,10 @@ const toneClassMap: Record<SectionTone, string> = {
 type SectionProps = ComponentPropsWithoutRef<"section"> & {
   tone: SectionTone;
   containerClassName?: string;
-  deferRendering?: boolean;
 };
 
 export const Section = forwardRef<HTMLElement, SectionProps>(function Section(
-  { tone, className, containerClassName, deferRendering = false, children, ...props },
+  { tone, className, containerClassName, children, ...props },
   ref,
 ) {
   return (
@@ -23,7 +22,6 @@ export const Section = forwardRef<HTMLElement, SectionProps>(function Section(
       ref={ref}
       className={cx(
         "section-spacing section-anchor-offset",
-        deferRendering && "section-render-auto",
         toneClassMap[tone],
         className,
       )}
