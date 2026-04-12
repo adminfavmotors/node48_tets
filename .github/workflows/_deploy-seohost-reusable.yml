@@ -1,0 +1,145 @@
+name: _Deploy SEOHOST Reusable
+
+on:
+  workflow_call:
+    inputs:
+      deploy_ref:
+        description: Branch, tag, or commit SHA to deploy. Empty uses the caller SHA.
+        required: false
+        default: ""
+        type: string
+      deployment_reason:
+        description: Short label describing why this deployment is running.
+        required: true
+        type: string
+
+concurrency:
+  group: deploy-seohost-production
+  cancel-in-progress: true
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://node48.pl
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Resolve deployment target
+        id: resolve
+        shell: bash
+        run: |
+          target_ref="${{ inputs.deploy_ref }}"
+
+          if [ -z "$target_ref" ]; then
+            target_ref="${GITHUB_SHA}"
+          fi
+
+          echo "target_ref=$target_ref" >> "$GITHUB_OUTPUT"
+
+      - name: Checkout deployment target
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ steps.resolve.outputs.target_ref }}
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: Capture git metadata
+        id: gitmeta
+        shell: bash
+        run: |
+          deployed_sha="$(git rev-parse HEAD)"
+          short_sha="$(git rev-parse --short=7 HEAD)"
+          timestamp_utc="$(date -u +"%Y%m%d-%H%M%S")"
+          deployment_tag="prod-${timestamp_utc}-${short_sha}"
+
+          echo "deployed_sha=$deployed_sha" >> "$GITHUB_OUTPUT"
+          echo "short_sha=$short_sha" >> "$GITHUB_OUTPUT"
+          echo "deployment_tag=$deployment_tag" >> "$GITHUB_OUTPUT"
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build production bundle
+        run: npm run build
+
+      - name: Install rsync
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y rsync
+
+      - name: Prepare SEOHOST SSH key
+        env:
+          SEOHOST_SSH_PRIVATE_KEY: ${{ secrets.SEOHOST_GITHUB_ACTIONS_RSA }}
+        run: |
+          if [ -z "${SEOHOST_SSH_PRIVATE_KEY}" ]; then
+            echo "Missing required secret: SEOHOST_GITHUB_ACTIONS_RSA" >&2
+            exit 1
+          fi
+
+          install -d -m 700 "${HOME}/.ssh"
+          python - <<'PY'
+          import base64
+          import binascii
+          import os
+          from pathlib import Path
+
+          key_path = Path(os.environ["HOME"]) / ".ssh" / "seohost_deploy_key"
+          secret = os.environ["SEOHOST_SSH_PRIVATE_KEY"].strip()
+
+          if "BEGIN " in secret and "PRIVATE KEY" in secret:
+            key = secret.replace("\r\n", "\n").replace("\r", "\n").strip() + "\n"
+            key_path.write_text(key, encoding="utf-8", newline="\n")
+          else:
+            compact = "".join(secret.split())
+            try:
+              key_bytes = base64.b64decode(compact, validate=True)
+            except binascii.Error as exc:
+              raise SystemExit(
+                "SEOHOST_GITHUB_ACTIONS_RSA must be a valid private key or base64-encoded private key"
+              ) from exc
+
+            key_path.write_bytes(key_bytes)
+          PY
+          chmod 600 "${HOME}/.ssh/seohost_deploy_key"
+          ssh-keygen -yf "${HOME}/.ssh/seohost_deploy_key" > /dev/null
+
+      - name: Deploy to SEOHOST over SSH
+        run: |
+          rsync -az --delete \
+            -e "ssh -i ${HOME}/.ssh/seohost_deploy_key -p 57185 -o IdentitiesOnly=yes -o StrictHostKeyChecking=accept-new" \
+            ./dist/ \
+            srv110507@h79.seohost.pl:domains/node48.pl/public_html/
+
+      - name: Create immutable production tag
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          tag_message="Production deployment (${{ inputs.deployment_reason }}) for ${{ steps.gitmeta.outputs.deployed_sha }}"
+
+          git tag -a "${{ steps.gitmeta.outputs.deployment_tag }}" "${{ steps.gitmeta.outputs.deployed_sha }}" -m "$tag_message"
+
+          git push origin "${{ steps.gitmeta.outputs.deployment_tag }}"
+
+      - name: Publish deployment summary
+        shell: bash
+        run: |
+          {
+            echo "## Production deployment"
+            echo
+            echo "- Reason: \`${{ inputs.deployment_reason }}\`"
+            echo "- Deployed ref: \`${{ steps.resolve.outputs.target_ref }}\`"
+            echo "- Deployed commit: \`${{ steps.gitmeta.outputs.deployed_sha }}\`"
+            echo "- Production tag: \`${{ steps.gitmeta.outputs.deployment_tag }}\`"
+            echo "- Site URL: https://node48.pl"
+          } >> "$GITHUB_STEP_SUMMARY"

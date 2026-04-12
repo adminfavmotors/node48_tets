@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://node48.pl/sitemap.xml
