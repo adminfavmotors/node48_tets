@@ -430,8 +430,12 @@
     top: 12%;
     width: 240px;
     height: 240px;
-    opacity: 0.2;
-    filter: blur(120px);
+    --ambient-opacity: 0.16;
+    --ambient-opacity-mid: 0.22;
+    --ambient-blur: 120px;
+    --ambient-shift-x: 14px;
+    --ambient-shift-y: -12px;
+    --ambient-scale-mid: 1.08;
   }
 
   .section-orb-service-b {
@@ -439,8 +443,12 @@
     right: 14%;
     width: 220px;
     height: 220px;
-    opacity: 0.2;
-    filter: blur(120px);
+    --ambient-opacity: 0.16;
+    --ambient-opacity-mid: 0.22;
+    --ambient-blur: 120px;
+    --ambient-shift-x: -14px;
+    --ambient-shift-y: 12px;
+    --ambient-scale-mid: 1.08;
   }
 
   .service-page-step-card .service-page-card-title {

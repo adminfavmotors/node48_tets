@@ -411,6 +411,10 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .site-structural-motion-layer,
+  .hero-section-aurora,
+  .header-mobile-glow,
+  .contact-success-banner-glow,
   .glow-orb,
   .section-divider::after,
   .faq-divider::after,

@@ -42,6 +42,8 @@
     --light-interactive-ring: rgb(var(--light-cool-rgb) / 0.08);
     --light-warm-soft: rgb(var(--light-warm-rgb) / 0.12);
     --light-warm-strong: rgb(var(--light-warm-rgb) / 0.22);
+    --ambient-motion-duration: 18s;
+    --ambient-motion-ease: cubic-bezier(0.37, 0, 0.2, 1);
     --background: 225 100% 9%;
     --foreground: 216 100% 95%;
     --card: 226 80% 18%;
@@ -281,16 +283,29 @@
   .glow-orb {
     @apply absolute rounded-full pointer-events-none;
     background: radial-gradient(circle, rgb(var(--light-cool-rgb) / 0.94) 0%, rgb(var(--light-cool-deep-rgb) / 0.62) 48%, transparent 76%);
-    filter: blur(100px);
-    animation: orb-pulse-a 12s ease-in-out infinite;
+    opacity: var(--ambient-opacity, 0.18);
+    filter: blur(var(--ambient-blur, 100px));
+    transform: translate3d(0, 0, 0) scale(1);
+    animation: ambient-drift var(--ambient-duration, var(--ambient-motion-duration)) var(--ambient-motion-ease) infinite;
+    animation-delay: var(--ambient-delay, 0s);
   }
 
   .glow-orb-b {
-    animation: orb-pulse-b 16s ease-in-out infinite;
+    --ambient-duration: 22s;
+    --ambient-shift-x: 16px;
+    --ambient-shift-y: -14px;
+    --ambient-scale-mid: 1.08;
+    --ambient-opacity-mid: 0.24;
+    --ambient-delay: -6s;
   }
 
   .glow-orb-c {
-    animation: orb-pulse-c 14s ease-in-out infinite;
+    --ambient-duration: 20s;
+    --ambient-shift-x: -12px;
+    --ambient-shift-y: 12px;
+    --ambient-scale-mid: 1.06;
+    --ambient-opacity-mid: 0.22;
+    --ambient-delay: -10s;
   }
 
   .card-surface {
@@ -1137,36 +1152,16 @@
   }
 }
 
-@keyframes orb-pulse-a {
+@keyframes ambient-drift {
   0%,
   100% {
-    opacity: 0.14;
+    opacity: var(--ambient-opacity, 0.18);
+    transform: translate3d(0, 0, 0) scale(1);
   }
 
   50% {
-    opacity: 0.26;
-  }
-}
-
-@keyframes orb-pulse-b {
-  0%,
-  100% {
-    opacity: 0.12;
-  }
-
-  50% {
-    opacity: 0.22;
-  }
-}
-
-@keyframes orb-pulse-c {
-  0%,
-  100% {
-    opacity: 0.12;
-  }
-
-  50% {
-    opacity: 0.2;
+    opacity: var(--ambient-opacity-mid, calc(var(--ambient-opacity, 0.18) + 0.06));
+    transform: translate3d(var(--ambient-shift-x, 10px), var(--ambient-shift-y, -8px), 0) scale(var(--ambient-scale-mid, 1.07));
   }
 }
 
