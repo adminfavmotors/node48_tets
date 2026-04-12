@@ -467,17 +467,16 @@
     padding: 1px;
     border-radius: inherit;
     background:
-      conic-gradient(
-        from 0deg at 50% 50%,
-        transparent 0deg 22deg,
-        rgb(var(--light-warm-rgb) / 0.16) 48deg,
-        rgb(var(--light-line-rgb) / 0.22) 84deg,
-        rgb(var(--light-cool-rgb) / 0.42) 132deg,
-        transparent 176deg 224deg,
-        rgb(var(--light-cool-rgb) / 0.18) 276deg,
-        rgb(var(--light-warm-rgb) / 0.14) 320deg,
-        transparent 360deg
-      );
+      linear-gradient(
+        112deg,
+        transparent 32%,
+        rgb(var(--light-warm-rgb) / 0.14) 43%,
+        rgb(var(--light-line-rgb) / 0.18) 48%,
+        rgb(var(--light-cool-rgb) / 0.42) 54%,
+        rgb(var(--light-line-rgb) / 0.2) 58%,
+        transparent 70%
+      )
+      145% 50% / 220% 220% no-repeat;
     -webkit-mask:
       linear-gradient(#000 0 0) content-box,
       linear-gradient(#000 0 0);
@@ -486,14 +485,12 @@
       linear-gradient(#000 0 0) content-box,
       linear-gradient(#000 0 0);
     mask-composite: exclude;
-    filter: saturate(1.02);
+    filter: saturate(1.03);
     opacity: 0;
-    transform: rotate(0deg);
-    animation: premium-accent-orbit 4.4s linear infinite paused;
+    animation: premium-accent-sweep 2.8s linear infinite paused;
     transition:
       opacity var(--structural-motion-base) var(--structural-motion-ease),
-      filter var(--structural-motion-base) var(--structural-motion-ease),
-      border-color var(--structural-motion-base) var(--structural-motion-ease);
+      filter var(--structural-motion-base) var(--structural-motion-ease);
     pointer-events: none;
   }
 
@@ -504,9 +501,9 @@
     height: 62%;
     border-radius: calc(var(--radius) - 1px);
     background:
-      radial-gradient(circle at 16% 24%, rgb(var(--light-warm-rgb) / 0.16), transparent 24%),
-      radial-gradient(circle at 82% 18%, rgb(var(--light-cool-rgb) / 0.18), transparent 28%),
-      radial-gradient(circle at 52% 100%, rgb(var(--light-cool-rgb) / 0.08), transparent 42%);
+      radial-gradient(circle at 18% 24%, rgb(var(--light-warm-rgb) / 0.18), transparent 22%),
+      radial-gradient(circle at 82% 18%, rgb(var(--light-cool-rgb) / 0.16), transparent 28%),
+      radial-gradient(circle at 50% 100%, rgb(var(--light-cool-rgb) / 0.06), transparent 40%);
     filter: blur(28px);
     opacity: 0;
     transition:
@@ -521,14 +518,14 @@
   }
 
   .card-surface-premium-accent:is(:hover, :focus-within)::before {
-    opacity: 0.96;
+    opacity: 0.92;
     filter: saturate(1.06);
     animation-play-state: running;
   }
 
   .card-surface-premium-accent:is(:hover, :focus-within)::after {
-    opacity: 0.88;
-    filter: blur(22px);
+    opacity: 0.7;
+    filter: blur(24px);
   }
 
   .card-surface-premium-accent:is(:hover, :focus-within) {
@@ -1233,13 +1230,13 @@
   }
 }
 
-@keyframes premium-accent-orbit {
+@keyframes premium-accent-sweep {
   from {
-    transform: rotate(0deg);
+    background-position: 145% 50%;
   }
 
   to {
-    transform: rotate(360deg);
+    background-position: -55% 50%;
   }
 }
 
