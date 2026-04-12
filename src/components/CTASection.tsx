@@ -10,7 +10,7 @@ const CTASection = () => {
   return (
     <Section tone="deep" className="section-deep-focus" pageEntryOrder={8}>
       <div className="cta-card-grid">
-        <SurfaceCard variant="deep" className="cta-card">
+        <SurfaceCard variant="deep" premiumAccent className="cta-card">
           <div className="cta-card-stack">
             <div className="icon-circle">
               <MessageCircle size={20} className="icon-circle-glyph" />
@@ -27,7 +27,7 @@ const CTASection = () => {
           </div>
         </SurfaceCard>
 
-        <SurfaceCard variant="deep" className="cta-card">
+        <SurfaceCard variant="deep" premiumAccent className="cta-card">
           <div className="cta-card-stack">
             <div className="icon-circle">
               <CircleHelp size={20} className="icon-circle-glyph" />
