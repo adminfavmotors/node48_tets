@@ -299,15 +299,6 @@
     --ambient-delay: -6s;
   }
 
-  .glow-orb-c {
-    --ambient-duration: 20s;
-    --ambient-shift-x: -12px;
-    --ambient-shift-y: 12px;
-    --ambient-scale-mid: 1.06;
-    --ambient-opacity-mid: 0.22;
-    --ambient-delay: -10s;
-  }
-
   .card-surface {
     background:
       linear-gradient(160deg, rgba(10, 27, 74, 0.98), rgba(6, 17, 48, 0.98)),
